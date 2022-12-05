@@ -6,6 +6,17 @@ author:
 aspectratio: 169
 ---
 
+## What are we comparing?
+1. Programming language
+2. Software application 
+3. Documentation
+4. Community
+
+## Programming language
+- human readable syntax
+- designed for data analysis
+- good default options
+
 ## Two-Column Slide
 ::: columns
 
@@ -62,3 +73,71 @@ scatter price rating, scheme(economist)
 ![](img/scatter.png){ width=80% }
 ::::
 :::
+
+## Same in Python
+\tiny
+```python
+import pandas as pd
+import matplotlib.pyplot as plt
+
+# load hotel price data
+price_data = pd.read_stata("hotels-europe_price.dta")
+
+# add hotel features (location, stars, ratings, etc.)
+features = pd.read_stata("hotels-europe_features.dta")
+data = price_data.merge(features, on="hotel_id", how="left")
+
+# replace high prices with 1000
+data.loc[data["price"] > 1000, "price"] = 1000
+
+# regress price on ratings, stars, plus month, weekend dummies
+data = pd.get_dummies(data, columns=["month", "weekend"])
+result = sm.OLS(data["price"], data[["rating", "stars"] + list(data.columns[data.columns.str.startswith("month_")]) + list(data.columns[data.columns.str.startswith("weekend_")])]).fit(cov_type="cluster", cov_kwds={"groups": data["country"]})
+
+# keep only 5-star hotels
+data = data[data["stars"] == 5]
+
+# calculate mean price and rating by country
+data = data.groupby("country").mean()[["price", "rating"]]
+
+# label variables
+data.rename(columns={"price": "Price (€)", "rating": "Rating (1 to 5)"}, inplace=True)
+
+# scatterplot
+data.plot(x="Price (€)", y="Rating (1 to 5)", kind="scatter", colormap="tab10", figsize=(8, 6))
+plt.show()
+```
+
+## Same in R
+\tiny
+```r
+library(tidyverse)
+library(ggplot2)
+
+# load hotel price data
+price_data <- read_dta("hotels-europe_price.dta")
+
+# add hotel features (location, stars, ratings, etc.)
+features <- read_dta("hotels-europe_features.dta")
+data <- left_join(price_data, features, by="hotel_id")
+
+# replace high prices with 1000
+data <- data %>% mutate(price=if_else(price > 1000, 1000, price))
+
+# regress price on ratings, stars, plus month, weekend dummies
+data <- data %>% mutate(month=factor(month), weekend=factor(weekend)) %>% nest(-country)
+result <- data %>% mutate(model=map(data, ~ lm(price ~ rating + stars + month + weekend, data=.)),
+                         summ=map(model, broom::tidy)) %>%
+                unnest(summ)
+
+# subset data for 5-star hotels only
+five_star_data <- data %>% filter(stars == 5) %>%
+                        group_by(country) %>%
+                        summarize(mean_price=mean(price), mean_rating=mean(rating))
+
+# create scatterplot
+ggplot(five_star_data, aes(x=mean_price, y=mean_rating)) +
+  geom_point() +
+  labs(x="Price (€)", y="Rating (1 to 5)") +
+  scale_color_economist()
+```
