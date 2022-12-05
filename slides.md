@@ -13,9 +13,9 @@ aspectratio: 169
 4. Community
 
 ## Programming language
-- human readable syntax
-- designed for data analysis
-- good default options
+1. designed for data analysis
+2. human readable syntax
+3. good default options
 
 ## Two-Column Slide
 ::: columns
@@ -59,7 +59,9 @@ regress price rating stars i.month
 ::::column
 \small
 ```stata
+/* keep only 5-star hotels */
 keep if stars == 5
+/ * mean price and rating by country */
 collapse (mean) price (mean) rating, 
   by(country)
 label variable price "Price (€)"
@@ -72,6 +74,37 @@ scatter price rating, scheme(economist)
 \centering
 ![](img/scatter.png){ width=80% }
 ::::
+:::
+
+## Stata vs R
+:::columns
+::::column
+```stata
+scatter price rating, scheme(economist)
+```
+::::
+::::column
+::::
+```R
+ggplot(five_star_data, aes(x=mean_price, y=mean_rating)) +
+  geom_point() +
+  labs(x="Price (€)", y="Rating (1 to 5)") +
+  scale_color_economist()
+```
+:::
+
+## Stata vs Python
+:::columns
+::::column
+```stata
+replace price = 1000 if price > 1000
+```
+::::
+::::column
+::::
+```python
+data.loc[data["price"] > 1000, "price"] = 1000
+```
 :::
 
 ## Same in Python
@@ -92,7 +125,8 @@ data.loc[data["price"] > 1000, "price"] = 1000
 
 # regress price on ratings, stars, plus month, weekend dummies
 data = pd.get_dummies(data, columns=["month", "weekend"])
-result = sm.OLS(data["price"], data[["rating", "stars"] + list(data.columns[data.columns.str.startswith("month_")]) + list(data.columns[data.columns.str.startswith("weekend_")])]).fit(cov_type="cluster", cov_kwds={"groups": data["country"]})
+result = sm.OLS(data["price"], data[["rating", "stars"] + list(data.columns[data.columns.str.startswith("month_")]) 
+  + list(data.columns[data.columns.str.startswith("weekend_")])]).fit(cov_type="cluster", cov_kwds={"groups": data["country"]})
 
 # keep only 5-star hotels
 data = data[data["stars"] == 5]
