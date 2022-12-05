@@ -1,35 +1,120 @@
 ---
-title: Why Stata is the best programming language to start data analysis
+title: Stata is the best tool to start data analysis
 author: 
-  - Milós Koren
+  - Miklós Koren
   - Márton Fleck
 aspectratio: 169
 ---
 
 ## What are we comparing?
+:::columns
+::::column
 1. Programming language
 2. Software application 
 3. Documentation
 4. Community
-
-## Programming language
-1. designed for data analysis
-2. human readable syntax
-3. good default options
-
-## Two-Column Slide
-::: columns
-
-:::: column
-![](img/Brattle.png)
 ::::
+::::column
+::::
+:::
 
-:::: column
+## What are we comparing?
+:::columns
+::::column
+1. \color{CTred}**Programming language**\color{black}
+2. Software application 
+3. Documentation
+4. Community
+::::
+::::column
+1. Designed for data
+2. Designed for humans
+3. Works right away
+::::
+:::
+
+## What are we comparing?
+:::columns
+::::column
+1. Programming language
+2. \color{CTred}**Software application**\color{black} 
+3. Documentation
+4. Community
+::::
+::::column
+![](img/stata-ui.png)
+::::
+:::
+
+## What are we comparing?
+:::columns
+::::column
+1. Programming language
+2. Software application 
+3. \color{CTred}**Documentation**\color{black}
+4. Community
+::::
+::::column
+![](img/documentation.png)
+::::
+:::
+
+## What are we comparing?
+:::columns
+::::column
+1. Programming language
+2. Software application 
+3. Documentation
+4. \color{CTred}**Community**\color{black}
+::::
+::::column
+![](img/restud.png)
+::::
+:::
+\addtocounter{framenumber}{-1}
+
+## What are we comparing?
+:::columns
+::::column
+1. Programming language
+2. Software application 
+3. Documentation
+4. \color{CTred}**Community**\color{black}
+::::
+::::column
 ![](img/Compass.png)
 ::::
-::::
+:::
+\addtocounter{framenumber}{-1}
 
-## Code Example
+## What are we comparing?
+:::columns
+::::column
+1. Programming language
+2. Software application 
+3. Documentation
+4. \color{CTred}**Community**\color{black}
+::::
+::::column
+![](img/Brattle.png)
+::::
+:::
+\addtocounter{framenumber}{-1}
+
+## What are we comparing?
+:::columns
+::::column
+1. Programming language
+2. Software application 
+3. Documentation
+4. \color{CTred}**Community**\color{black}
+::::
+::::column
+![](img/CRA.png)
+::::
+:::
+
+## Data Wrangling and Regression
 :::columns
 ::::column
 \small
@@ -54,14 +139,14 @@ regress price rating stars i.month
 ::::
 :::
 
-## Code Example
+## Data Wrangling and Visualization
 :::columns
 ::::column
 \small
 ```stata
 /* keep only 5-star hotels */
 keep if stars == 5
-/ * mean price and rating by country */
+/* mean price and rating by country */
 collapse (mean) price (mean) rating, 
   by(country)
 label variable price "Price (€)"
@@ -76,18 +161,22 @@ scatter price rating, scheme(economist)
 ::::
 :::
 
-## Stata vs R
+## Much simpler than R
 :::columns
 ::::column
+\small
 ```stata
 scatter price rating, scheme(economist)
 ```
 ::::
 ::::column
+\small
 ```R
-ggplot(five_star_data, aes(x=mean_price, y=mean_rating)) +
+ggplot(five_star_data, 
+  aes(x=mean_price, y=mean_rating)) +
   geom_point() +
-  labs(x="Price (€)", y="Rating (1 to 5)") +
+  labs(x="Price (€)", 
+    y="Rating (1 to 5)") +
   scale_color_economist()
 ```
 ::::
@@ -96,17 +185,21 @@ ggplot(five_star_data, aes(x=mean_price, y=mean_rating)) +
 ## Stata vs Python
 :::columns
 ::::column
+\small
 ```stata
 replace price = 1000 if price > 1000
 ```
 ::::
 ::::column
+\small
 ```python
-data.loc[data["price"] > 1000, "price"] = 1000
+data.loc[data["price"] > 1000, 
+  "price"] = 1000
 ```
 ::::
 :::
 
+# Burn
 ## Same in Python
 \tiny
 ```python
@@ -175,3 +268,9 @@ ggplot(five_star_data, aes(x=mean_price, y=mean_rating)) +
   labs(x="Price (€)", y="Rating (1 to 5)") +
   scale_color_economist()
 ```
+
+## RStudio pricing
+![](img/RStudio.png){ width=100% }
+
+## Anaconda pricing
+![](img/anaconda.png){ width=100% }
