@@ -37,6 +37,7 @@ regress price rating stars i.month
   i.weekend, vce(cluster country)
 ```
 ::::
+\pause
 ::::column
 ![](img/regression.png){ width=100% }
 ::::
@@ -55,7 +56,9 @@ label variable rating "Rating (1 to 5)"
 scatter price rating, scheme(economist)
 ```
 ::::
+\pause
 ::::column
-![](img/scatter.png){ width=100% }
+\centering
+![](img/scatter.png){ width=80% }
 ::::
 :::
