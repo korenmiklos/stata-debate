@@ -19,20 +19,28 @@ aspectratio: 169
 ::::
 
 ## Code Example
+:::columns
+::::column
 \small
 ```stata
 /* Hotel price data */
 use "hotels-europe_price.dta", clear
-/* Add hotel features (location, stars, ratings, etc.) */
-merge m:1 hotel_id using "hotels-europe_features.dta"
+/* Add hotel features (location, 
+  stars, ratings, etc.) */
+merge m:1 hotel_id using 
+  "hotels-europe_features.dta"
 /* Censor prices that are too high */
 replace price = 1000 if price > 1000
-/* Regress price on ratings, stars, plus month, weekend dummies */
-regress price rating stars i.month i.weekend, vce(cluster country)
+/* Regress price on ratings, stars, 
+  plus month, weekend dummies */
+regress price rating stars i.month 
+  i.weekend, vce(cluster country)
 ```
-
-## Regression Table
-![](img/regression.png)
+::::
+::::column
+![](img/regression.png){ width=100% }
+::::
+:::
 
 ## Code Example
 :::columns
