@@ -182,7 +182,7 @@ ggplot(five_star_data,
 ::::
 :::
 
-## Stata vs Python
+## Much clearer than Python
 :::columns
 ::::column
 \small
