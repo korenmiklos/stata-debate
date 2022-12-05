@@ -84,13 +84,13 @@ scatter price rating, scheme(economist)
 ```
 ::::
 ::::column
-::::
 ```R
 ggplot(five_star_data, aes(x=mean_price, y=mean_rating)) +
   geom_point() +
   labs(x="Price (€)", y="Rating (1 to 5)") +
   scale_color_economist()
 ```
+::::
 :::
 
 ## Stata vs Python
@@ -101,10 +101,10 @@ replace price = 1000 if price > 1000
 ```
 ::::
 ::::column
-::::
 ```python
 data.loc[data["price"] > 1000, "price"] = 1000
 ```
+::::
 :::
 
 ## Same in Python
