@@ -18,4 +18,4 @@ label variable price "Price (€)"
 label variable rating "Rating (1 to 5)"
 
 scatter price rating, scheme(economist)
-graph export "img/scatter.png", replace
+graph export "img/scatter.png", replace width(1000)

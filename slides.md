@@ -53,10 +53,9 @@ collapse (mean) price (mean) rating,
 label variable price "Price (€)"
 label variable rating "Rating (1 to 5)"
 scatter price rating, scheme(economist)
-graph export "img/scatter.png", replace
 ```
 ::::
 ::::column
-![](img/scatter.png)
+![](img/scatter.png){ width=100% }
 ::::
 :::
