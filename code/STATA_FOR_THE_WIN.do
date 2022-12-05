@@ -1,8 +1,8 @@
 * Hotel price data
-use "hotels-europe_price.dta", clear
+use "data/hotels-europe_price.dta", clear
 
 * Add hotel features (location, stars, ratings, etc.)
-merge m:1 hotel_id using "hotels-europe_features.dta"
+merge m:1 hotel_id using "data/hotels-europe_features.dta"
 
 * 
 replace price = 1000 if price > 1000
@@ -18,3 +18,4 @@ label variable price "Price (€)"
 label variable rating "Rating (1 to 5)"
 
 scatter price rating, scheme(economist)
+graph export "img/scatter.png", replace

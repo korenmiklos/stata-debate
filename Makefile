@@ -1,2 +1,15 @@
-slides.pdf: slides.md
-	pandoc -t beamer -o $@ $<
+slides.pdf: slides.md img/scatter.png
+
+%.tex: %.md preamble-slides.tex
+	pandoc $< \
+	    -t beamer \
+	    --slide-level 2 \
+	    -H preamble-slides.tex \
+	    -o $@
+
+%.pdf: %.tex
+	cd $(dir $@) && pdflatex -shell-escape $(notdir $<)  && pdflatex -shell-escape $(notdir $<)
+	rm $(basename $<).log $(basename $<).nav $(basename $<).aux $(basename $<).snm $(basename $<).toc
+
+img/scatter.png: code/STATA_FOR_THE_WIN.do data/hotels-europe_features.dta data/hotels-europe_price.dta
+	stata -b do $<
