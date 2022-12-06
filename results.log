@@ -71,56 +71,22 @@ Notes:
                 Total |        25         15         16         49 |       105 
 
 . 
-. /*
->  [Start] Which coding |
->  (scripting) language |   [AFTER Debate] Which coding (scripting)
->      should a student |  language should a student (first) master
-> (first) master for Da |    Python          R      Stata  dropped.. |     Tota
-> l
-> ----------------------+--------------------------------------------+---------
-> -
->                Python |        14          1          2         14 |        3
-> 1 
->                     R |         6         13          2         14 |        3
-> 5 
->                 Stata |         5          1         12         21 |        3
-> 9 
-> ----------------------+--------------------------------------------+---------
-> -
->                 Total |        25         15         16         49 |       10
-> 5 
-> */
-. 
 . * Who said Stata is not a programming language?!
 . foreach lang in Python R Stata {
-  2.     count if before != "`lang'" & after == "`lang'"
-  3.     scalar switch_to_`lang' = r(N)
-  4.     * do not count dropouts as abandoning a langage
-.     count if before == "`lang'" & after != "`lang'" & after != "dropped out"
-  5.     scalar switch_from_`lang' = r(N)
-  6.     scalar difference_`lang' = switch_to_`lang' - switch_from_`lang'
-  7. }
-  11
-  3
-  2
-  8
-  4
-  6
-
-. scalar list difference_Python
-difference_Python =          8
-
-. scalar list difference_Stata
-difference_Stata =         -2
-
-. scalar list difference_R
-difference_R =         -6
+  2.     generate byte switch_to_`lang' = (before != "`lang'" & after == "`lang
+> '")
+  3.     generate byte switch_from_`lang' = (before == "`lang'" & after != "`la
+> ng'" & after != "dropped out")
+  4.     generate difference_`lang' = switch_to_`lang' - switch_from_`lang'
+  5.     label variable difference_`lang' "`lang'"
+  6. }
 
 . 
-. /*
-> difference_Python =          8
-> difference_Stata =         -2
-> difference_R =         -6
-> */
+. graph dot (sum) difference_Python difference_Stata difference_R, scheme(econo
+> mist) legend(order(3 "R" 2 "Stata" 1 "Python")) 
+
+. graph export "img/results.png", width(1000) replace
+file img/results.png written in PNG format
+
 . 
 end of do-file
