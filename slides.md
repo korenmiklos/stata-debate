@@ -68,53 +68,14 @@ aspectratio: 169
 4. \color{CTred}**Community**\color{black}
 ::::
 ::::column
-![](img/restud.png)
-::::
-:::
-\addtocounter{framenumber}{-1}
-
-## What are we comparing?
-:::columns
-::::column
-1. Programming language
-2. Software application 
-3. Documentation
-4. \color{CTred}**Community**\color{black}
-::::
-::::column
-![](img/Compass.png)
-::::
-:::
-\addtocounter{framenumber}{-1}
-
-## What are we comparing?
-:::columns
-::::column
-1. Programming language
-2. Software application 
-3. Documentation
-4. \color{CTred}**Community**\color{black}
-::::
-::::column
-![](img/Brattle.png)
-::::
-:::
-\addtocounter{framenumber}{-1}
-
-## What are we comparing?
-:::columns
-::::column
-1. Programming language
-2. Software application 
-3. Documentation
-4. \color{CTred}**Community**\color{black}
-::::
-::::column
-![](img/CRA.png)
+\only<1>{\includegraphics{img/restud.png}}
+\only<2>{\includegraphics{img/Compass.png}}
+\only<3>{\includegraphics{img/Brattle.png}}
+\only<4>{\includegraphics{img/CRA.png}}
 ::::
 :::
 
-## Data Wrangling and Regression
+## Stata is best for data wrangling and regression
 :::columns
 ::::column
 \small
@@ -139,7 +100,7 @@ regress price rating stars i.month
 ::::
 :::
 
-## Data Wrangling and Visualization
+## Stata is best for data wrangling and visualization
 :::columns
 ::::column
 \small
@@ -164,12 +125,14 @@ scatter price rating, scheme(economist)
 ## Much simpler than R
 :::columns
 ::::column
+### Stata
 \small
 ```stata
 scatter price rating, scheme(economist)
 ```
 ::::
 ::::column
+### R
 \small
 ```R
 ggplot(five_star_data, 
@@ -185,12 +148,14 @@ ggplot(five_star_data,
 ## Much clearer than Python
 :::columns
 ::::column
+### Stata
 \small
 ```stata
 replace price = 1000 if price > 1000
 ```
 ::::
 ::::column
+### Python
 \small
 ```python
 data.loc[data["price"] > 1000, 
