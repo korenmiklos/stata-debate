@@ -1,0 +1,126 @@
+
+  ___  ____  ____  ____  ____ ®
+ /__    /   ____/   /   ____/      17.0
+___/   /   /___/   /   /___/       MP—Parallel Edition
+
+ Statistics and Data Science       Copyright 1985-2021 StataCorp LLC
+                                   StataCorp
+                                   4905 Lakeway Drive
+                                   College Station, Texas 77845 USA
+                                   800-STATA-PC        https://www.stata.com
+                                   979-696-4600        stata@stata.com
+
+Stata license: Single-user 2-core  perpetual
+Serial number: 501706328764
+  Licensed to: Miklós Koren
+               CEU MicroData
+
+Notes:
+      1. Stata is running in batch mode.
+      2. Unicode is supported; see help unicode_advice.
+      3. More than 2 billion observations are allowed; see help obs_advice.
+      4. Maximum number of variables is set to 5,000; see help set_maxvar.
+
+. do code/results.do 
+
+. import excel "https://github.com/korenmiklos/r-python-stata/raw/main/Polls-pe
+> r-user-CEU_R_Python_Stata_2022.xlsx", firstrow clear
+(10 vars, 150 obs)
+
+. * first line is metadata
+. drop in 1
+(1 observation deleted)
+
+. 
+. rename AreyouatCEUViennaoronline location
+
+. rename AFTERDebateWhichcodingscr after
+
+. rename StartWhichcodingscripting before 
+
+. rename Whichwasthemostconvincingte team
+
+. 
+. keep location before after team
+
+. 
+. * limit to users who answered the first question
+. keep if !missing(before)
+(40 observations deleted)
+
+. replace after = "dropped out" if missing(after)
+(50 real changes made)
+
+. 
+. * drop "other" options
+. drop if before == "Other" | after == "Other"
+(4 observations deleted)
+
+. 
+. tabulate before after
+
+ [Start] Which coding |
+ (scripting) language |   [AFTER Debate] Which coding (scripting)
+     should a student |  language should a student (first) master
+(first) master for Da |    Python          R      Stata  dropped.. |     Total
+----------------------+--------------------------------------------+----------
+               Python |        14          1          2         14 |        31 
+                    R |         6         13          2         14 |        35 
+                Stata |         5          1         12         21 |        39 
+----------------------+--------------------------------------------+----------
+                Total |        25         15         16         49 |       105 
+
+. 
+. /*
+>  [Start] Which coding |
+>  (scripting) language |   [AFTER Debate] Which coding (scripting)
+>      should a student |  language should a student (first) master
+> (first) master for Da |    Python          R      Stata  dropped.. |     Tota
+> l
+> ----------------------+--------------------------------------------+---------
+> -
+>                Python |        14          1          2         14 |        3
+> 1 
+>                     R |         6         13          2         14 |        3
+> 5 
+>                 Stata |         5          1         12         21 |        3
+> 9 
+> ----------------------+--------------------------------------------+---------
+> -
+>                 Total |        25         15         16         49 |       10
+> 5 
+> */
+. 
+. * Who said Stata is not a programming language?!
+. foreach lang in Python R Stata {
+  2.     count if before != "`lang'" & after == "`lang'"
+  3.     scalar switch_to_`lang' = r(N)
+  4.     * do not count dropouts as abandoning a langage
+.     count if before == "`lang'" & after != "`lang'" & after != "dropped out"
+  5.     scalar switch_from_`lang' = r(N)
+  6.     scalar difference_`lang' = switch_to_`lang' - switch_from_`lang'
+  7. }
+  11
+  3
+  2
+  8
+  4
+  6
+
+. scalar list difference_Python
+difference_Python =          8
+
+. scalar list difference_Stata
+difference_Stata =         -2
+
+. scalar list difference_R
+difference_R =         -6
+
+. 
+. /*
+> difference_Python =          8
+> difference_Stata =         -2
+> difference_R =         -6
+> */
+. 
+end of do-file

@@ -1,4 +1,4 @@
-slides.pdf: slides.md img/scatter.png img/restud.png
+slides.pdf: slides.md img/scatter.png img/restud.png results.log
 
 %.tex: %.md preamble-slides.tex
 	pandoc $< \
@@ -15,4 +15,7 @@ img/scatter.png: code/STATA_FOR_THE_WIN.do data/hotels-europe_features.dta data/
 	stata -b do $<
 
 img/restud.png: code/restud.do data/restud-labels.csv
+	stata -b do $<
+
+results.log: code/results.do 
 	stata -b do $<
