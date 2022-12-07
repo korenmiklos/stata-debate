@@ -44,31 +44,29 @@ Notes:
 . keep location before after team
 
 . 
-. * limit to users who answered the first question
-. keep if !missing(before)
-(40 observations deleted)
-
-. replace after = "dropped out" if missing(after)
-(50 real changes made)
-
-. 
 . * drop "other" options
 . drop if before == "Other" | after == "Other"
 (4 observations deleted)
 
+. * only keep those that mention these 3 languages at least once
+. keep if inlist(before, "Stata", "R", "Python") | inlist(after, "Stata", "R", 
+> "Python")
+(14 observations deleted)
+
 . 
-. tabulate before after
+. tabulate before after, missing
 
  [Start] Which coding |
  (scripting) language |   [AFTER Debate] Which coding (scripting)
      should a student |  language should a student (first) master
-(first) master for Da |    Python          R      Stata  dropped.. |     Total
+(first) master for Da |               Python          R      Stata |     Total
 ----------------------+--------------------------------------------+----------
-               Python |        14          1          2         14 |        31 
-                    R |         6         13          2         14 |        35 
-                Stata |         5          1         12         21 |        39 
+                      |         0          6          3         17 |        26 
+               Python |        14         14          1          2 |        31 
+                    R |        14          6         13          2 |        35 
+                Stata |        21          5          1         12 |        39 
 ----------------------+--------------------------------------------+----------
-                Total |        25         15         16         49 |       105 
+                Total |        49         31         18         33 |       131 
 
 . 
 . * Who said Stata is not a programming language?!

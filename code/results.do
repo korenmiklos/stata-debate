@@ -9,14 +9,12 @@ rename Whichwasthemostconvincingte team
 
 keep location before after team
 
-* limit to users who answered the first question
-keep if !missing(before)
-replace after = "dropped out" if missing(after)
-
 * drop "other" options
 drop if before == "Other" | after == "Other"
+* only keep those that mention these 3 languages at least once
+keep if inlist(before, "Stata", "R", "Python") | inlist(after, "Stata", "R", "Python")
 
-tabulate before after
+tabulate before after, missing
 
 * Who said Stata is not a programming language?!
 foreach lang in Python R Stata {
